@@ -33,7 +33,8 @@ router.get('/:simbolo', obtenerUsuario, async (req, res) => {
 
     let datos;
     if (cache.length > 0) {
-      datos = cache[0].datos; // viene como objeto por mysql2
+      const raw = cache[0].datos;
+      datos = typeof raw === 'string' ? JSON.parse(raw) : raw;
     } else {
       // 2. Llamar a Alpha Vantage
       const response = await axios.get('https://www.alphavantage.co/query', {
