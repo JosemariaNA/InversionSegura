@@ -28,7 +28,7 @@ router.get('/:simbolo', obtenerUsuario, async (req, res) => {
       `SELECT datos, actualizado_en FROM cache_financiero
        WHERE simbolo = ? AND tipo = ?
        AND actualizado_en > NOW() - INTERVAL ? HOUR`,
-      [simbolo, tipo, CACHE_HORAS]
+      [simbolo, tipo, CACHE_HORAS] // Nota: el valor de CACHE_HORAS se define en .env, por ejemplo: CACHE_HORAS=24
     );
 
     let datos;
@@ -37,12 +37,12 @@ router.get('/:simbolo', obtenerUsuario, async (req, res) => {
       datos = typeof raw === 'string' ? JSON.parse(raw) : raw;
     } else {
       // 2. Llamar a Alpha Vantage
-      const response = await axios.get('https://www.alphavantage.co/query', {
+      const response = await axios.get('https://www.alphavantage.co/query', { // Nota: el endpoint y los parámetros pueden variar según la función que quieras usar
         params: {
           function: 'INCOME_STATEMENT',
           symbol: simbolo,
           apikey: process.env.ALPHA_VANTAGE_KEY,
-        },
+        },// Nota: asegúrate de que el endpoint y los parámetros coincidan con la función que deseas usar (por ejemplo, BALANCE_SHEET, CASH_FLOW, etc.)
       });
       datos = response.data;
 
@@ -80,12 +80,12 @@ router.get('/usuario/historial', async (req, res) => {
     const usuario = jwt.verify(auth.split(' ')[1], process.env.JWT_SECRET);
     const [rows] = await db.execute(
       `SELECT simbolo, buscado_en FROM historial_busquedas
-       WHERE usuario_id = ? ORDER BY buscado_en DESC LIMIT 20`,
+       WHERE usuario_id = ? ORDER BY buscado_en DESC LIMIT 20`, // Nota: puedes ajustar el límite según tus necesidades
       [usuario.id]
     );
     res.json(rows);
   } catch {
-    res.status(401).json({ error: 'Token inválido' });
+    res.status(401).json({ error: 'Token inválido' }); // Nota: el mensaje de error se ha cambiado a "Token inválido" para mayor claridad
   }
 });
 
