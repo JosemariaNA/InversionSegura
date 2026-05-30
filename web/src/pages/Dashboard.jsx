@@ -36,7 +36,7 @@ export default function Dashboard() {
         <div className="panel">
           <h3>🕘 Historial reciente</h3>
           {historial.length === 0 && <p>Sin búsquedas aún</p>}
-          {historial.map((h, i) => (
+          {historial.slice(0, 20).map((h, i) => (
             <div key={i} className="item-lista"
               onClick={() => navigate(`/empresa/${h.simbolo}`)}>
               <strong>{h.simbolo}</strong>

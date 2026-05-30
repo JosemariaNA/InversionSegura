@@ -12,19 +12,29 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <Link to="/" className="nav-logo">📊 InversionSegura</Link>
-      <div className="nav-links">
-        {token ? (
-          <>
-            <span>Hola, {nombre}</span>
-            <button onClick={cerrarSesion}>Cerrar sesión</button>
-          </>
-        ) : (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/registro">Registro</Link>
-          </>
-        )}
+      <div className="nav-content">
+        <Link to="/" className="nav-logo">
+          <span className="logo-icon">💰</span>
+          <span className="logo-text">InversionSegura</span>
+        </Link>
+        
+        <div className="nav-links">
+          {token ? (
+            <>
+              <div className="nav-user">
+                <span className="user-greeting">👤 {nombre}</span>
+                <button onClick={cerrarSesion} className="nav-logout">
+                  Cerrar sesión
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="nav-link">Inicia Sesión</Link>
+              <Link to="/registro" className="nav-link nav-link-primary">Regístrate</Link>
+            </>
+          )}
+        </div>
       </div>
     </nav>
   );

@@ -1,6 +1,6 @@
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   Tooltip,
@@ -9,14 +9,13 @@ import {
   Legend
 } from "recharts";
 import { formatChartValue, formatYAxis } from "./chartFormatters";
-import "./estilos/GraficaUtilidad.css";
+import "./estilos/GraficaIngresosVsCostos.css";
 
-export default function GraficaUtilidad({ datos }) {
+export default function GraficaIngresosVsCostos({ datos }) {
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={datos}>
+      <BarChart data={datos}>
         <CartesianGrid strokeDasharray="3 3" stroke="rgba(71, 85, 105, 0.3)" />
-
         <XAxis dataKey="fecha" stroke="#94a3b8" />
         <YAxis stroke="#94a3b8" tickFormatter={formatYAxis} />
         <Tooltip 
@@ -29,17 +28,30 @@ export default function GraficaUtilidad({ datos }) {
         />
         <Legend />
 
-        <Line
-          type="monotone"
-          dataKey="netIncome"
-          name="Utilidad Neta"
-          stroke="#ec4899"
-          strokeWidth={3}
-          dot={{ fill: '#ec4899', r: 5 }}
-          activeDot={{ r: 7 }}
-          className="line-utilidad"
+        <Bar
+          dataKey="revenue"
+          name="Ingresos"
+          fill="#10b981"
+          radius={[8, 8, 0, 0]}
+          className="bar-revenue"
         />
-      </LineChart>
+
+        <Bar
+          dataKey="cost"
+          name="Costos"
+          fill="#ef4444"
+          radius={[8, 8, 0, 0]}
+          className="bar-cost"
+        />
+
+        <Bar
+          dataKey="grossProfit"
+          name="Ganancia Bruta"
+          fill="#f59e0b"
+          radius={[8, 8, 0, 0]}
+          className="bar-profit"
+        />
+      </BarChart>
     </ResponsiveContainer>
   );
 }

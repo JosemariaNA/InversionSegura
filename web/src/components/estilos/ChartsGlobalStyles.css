@@ -1,0 +1,87 @@
+/* Color Palette and Chart Styling Documentation */
+
+/* 
+  Color Scheme for Charts:
+  
+  1. GRÁFICA INGRESOS VS COSTOS:
+     - Ingresos: Verde (#10b981)
+     - Costos: Rojo (#ef4444)
+     - Ganancia Bruta: Naranja (#f59e0b)
+  
+  2. GRÁFICA GASTOS OPERATIVOS (Stacked):
+     - Administración (SGA): Púrpura (#8b5cf6)
+     - Investigación (R&D): Cian (#06b6d4)
+  
+  3. GRÁFICA UTILIDAD NETA:
+     - Utilidad Neta: Rosa (#ec4899)
+  
+  4. GRÁFICA MÁRGENES:
+     - Margen Bruto %: Verde (#10b981)
+     - Margen Operativo %: Naranja (#f59e0b)
+     - Margen Neto %: Cian (#06b6d4)
+  
+  5. GRÁFICA EBIT VS EBITDA:
+     - EBIT: Azul (#3b82f6)
+     - EBITDA: Púrpura (#8b5cf6)
+  
+  6. GRÁFICA INGRESOS:
+     - Ingresos: Verde (#10b981)
+     - Costos: Rojo (#ef4444)
+
+  ESTILOS APLICADOS:
+  - Barras: radius [8, 8, 0, 0] para esquinas redondeadas
+  - Líneas: strokeWidth de 3px para mayor visibilidad
+  - Dots: radio de 5px normal, 7px en estado activo
+  - Shadows: drop-shadow para destacar elementos
+  - Eje X/Y: color #94a3b8 para mejor legibilidad
+  - Grid: rgba(71, 85, 105, 0.3) para transparencia sutil
+  - Tooltips: fondo oscuro con borde sutil
+*/
+
+.recharts-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.recharts-surface {
+  border-radius: 8px;
+  background: transparent;
+}
+
+/* Axis styling */
+.recharts-cartesian-axis-tick {
+  color: #94a3b8;
+}
+
+.recharts-cartesian-axis-tick-value {
+  fill: #94a3b8;
+  font-size: 12px;
+}
+
+/* Legend styling */
+.recharts-legend-wrapper {
+  padding-top: 20px;
+}
+
+.recharts-legend-item {
+  color: #cbd5e1;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Tooltip styling */
+.recharts-tooltip {
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.recharts-tooltip-label {
+  color: #cbd5e1;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.recharts-tooltip-item {
+  color: #cbd5e1;
+  font-size: 14px;
+}

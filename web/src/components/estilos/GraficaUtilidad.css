@@ -1,0 +1,30 @@
+/* Gráfica Utilidad Neta - Color: Rosa */
+
+.line-utilidad {
+  filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.3));
+}
+
+.recharts-surface {
+  border-radius: 8px;
+}
+
+.recharts-dot {
+  filter: drop-shadow(0 0 6px rgba(236, 72, 153, 0.4));
+}
+
+.recharts-activeDot {
+  filter: drop-shadow(0 0 12px rgba(236, 72, 153, 0.6));
+}
+
+.recharts-legend-wrapper {
+  margin-top: 20px !important;
+}
+
+.recharts-legend-item {
+  color: #cbd5e1 !important;
+  font-weight: 500;
+}
+
+.recharts-tooltip-wrapper {
+  outline: none;
+}

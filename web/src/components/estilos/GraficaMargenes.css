@@ -1,0 +1,38 @@
+/* Gráfica Márgenes - Colores: Verde, Naranja, Cian */
+
+.line-gross {
+  filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.3));
+}
+
+.line-operating {
+  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.3));
+}
+
+.line-net {
+  filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.3));
+}
+
+.recharts-surface {
+  border-radius: 8px;
+}
+
+.recharts-dot {
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.3));
+}
+
+.recharts-activeDot {
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.3));
+}
+
+.recharts-legend-wrapper {
+  margin-top: 20px !important;
+}
+
+.recharts-legend-item {
+  color: #cbd5e1 !important;
+  font-weight: 500;
+}
+
+.recharts-tooltip-wrapper {
+  outline: none;
+}

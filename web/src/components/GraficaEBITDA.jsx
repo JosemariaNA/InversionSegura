@@ -9,16 +9,16 @@ import {
   Legend
 } from "recharts";
 import { formatChartValue, formatYAxis } from "./chartFormatters";
-import "./estilos/GraficaUtilidad.css";
+import "./estilos/GraficaEBITDA.css";
 
-export default function GraficaUtilidad({ datos }) {
+export default function GraficaEBITDA({ datos }) {
   return (
     <ResponsiveContainer width="100%" height={300}>
       <LineChart data={datos}>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(71, 85, 105, 0.3)" />
+        <CartesianGrid strokeDasharray="3 3" stroke="rgba(71, 85, 105, 0.3)"/>
 
-        <XAxis dataKey="fecha" stroke="#94a3b8" />
-        <YAxis stroke="#94a3b8" tickFormatter={formatYAxis} />
+        <XAxis dataKey="fecha" stroke="#94a3b8"/>
+        <YAxis stroke="#94a3b8" tickFormatter={formatYAxis}/>
         <Tooltip 
           formatter={(value) => formatChartValue(value)}
           contentStyle={{
@@ -30,14 +30,23 @@ export default function GraficaUtilidad({ datos }) {
         <Legend />
 
         <Line
-          type="monotone"
-          dataKey="netIncome"
-          name="Utilidad Neta"
-          stroke="#ec4899"
+          dataKey="ebit"
+          name="EBIT"
+          stroke="#3b82f6"
           strokeWidth={3}
-          dot={{ fill: '#ec4899', r: 5 }}
+          dot={{ fill: '#3b82f6', r: 5 }}
           activeDot={{ r: 7 }}
-          className="line-utilidad"
+          className="line-ebit"
+        />
+
+        <Line
+          dataKey="ebitda"
+          name="EBITDA"
+          stroke="#8b5cf6"
+          strokeWidth={3}
+          dot={{ fill: '#8b5cf6', r: 5 }}
+          activeDot={{ r: 7 }}
+          className="line-ebitda"
         />
       </LineChart>
     </ResponsiveContainer>
