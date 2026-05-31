@@ -1,3 +1,5 @@
+import cargaGif from '../recursos/carga.gif';
+
 export default function LoadingSpinner() {
   return (
     <div className="loading-spinner-container">
@@ -17,20 +19,10 @@ export default function LoadingSpinner() {
           gap: 24px;
         }
 
-        .spinner {
-          width: 60px;
-          height: 60px;
-          border: 4px solid rgba(16, 185, 129, 0.2);
-          border-top-color: #10b981;
-          border-right-color: #10b981;
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-          to {
-            transform: rotate(360deg);
-          }
+        .spinner-image {
+          width: 80px;
+          height: 80px;
+          object-fit: contain;
         }
 
         .loading-text {
@@ -62,7 +54,7 @@ export default function LoadingSpinner() {
       `}</style>
 
       <div className="loading-spinner">
-        <div className="spinner"></div>
+        <img src={cargaGif} alt="Cargando..." className="spinner-image" />
         <div className="loading-text">
           Cargando datos financieros<span className="loading-dots"></span>
         </div>
