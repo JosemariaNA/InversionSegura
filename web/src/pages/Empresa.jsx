@@ -16,6 +16,8 @@ export default function Empresa() {
   const { simbolo } = useParams();
 
   const [empresa, setEmpresa] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
 
@@ -23,7 +25,33 @@ export default function Empresa() {
       .get(`/api/financiero/${simbolo}`)
       .then((res) => setEmpresa(res.data));
 
+    api
+      .get('/api/favoritos')
+      .then((res) => {
+        const esFavorito = res.data.some(f => f.simbolo === simbolo.toUpperCase());
+        setIsFavorite(esFavorito);
+      })
+      .catch(() => setIsFavorite(false));
+
   }, [simbolo]);
+
+  const handleAddFavorite = async () => {
+    try {
+      if (isFavorite) {
+        await api.delete(`/api/favoritos/${empresa.symbol}`);
+      } else {
+        await api.post('/api/favoritos', {
+          simbolo: empresa.symbol,
+          nombre_empresa: empresa.symbol
+        });
+      }
+      setIsFavorite(!isFavorite);
+      setShowMessage(true);
+      setTimeout(() => setShowMessage(false), 2000);
+    } catch (err) {
+      console.error('Error al guardar favorito:', err);
+    }
+  };
 
   if (!empresa) return <h2>Cargando...</h2>;
 
@@ -72,7 +100,64 @@ export default function Empresa() {
   return (
     <div className="empresa-container">
 
-      <h1>{empresa.symbol}</h1>
+      {showMessage && (
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "#10b981",
+            color: "white",
+            padding: "20px 40px",
+            borderRadius: "8px",
+            fontSize: "16px",
+            fontWeight: "600",
+            boxShadow: "0 8px 24px rgba(16, 185, 129, 0.4)",
+            zIndex: 9999,
+            animation: "fadeInOut 2s ease-in-out"
+          }}
+        >
+          {isFavorite ? "✅ Agregado a Favoritos" : "❌ Removido de Favoritos"}
+        </div>
+      )}
+
+      <style>{`
+        @keyframes fadeInOut {
+          0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+          50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+          100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+        }
+      `}</style>
+
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <h1>{empresa.symbol}</h1>
+        <button
+          onClick={handleAddFavorite}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: isFavorite ? "#059669" : "#10b981",
+            border: "1px solid rgba(16, 185, 129, 0.5)",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontSize: "14px",
+            fontWeight: "600",
+            color: "#ffffff",
+            transition: "all 0.3s ease",
+            boxShadow: "0 4px 12px rgba(16, 185, 129, 0.2)"
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.backgroundColor = "#059669";
+            e.target.style.boxShadow = "0 6px 16px rgba(16, 185, 129, 0.4)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.backgroundColor = isFavorite ? "#059669" : "#10b981";
+            e.target.style.boxShadow = "0 4px 12px rgba(16, 185, 129, 0.2)";
+          }}
+        >
+          {isFavorite ? "⭐ Quitar de Favoritos" : "⭐ Agregar a Favoritos"}
+        </button>
+      </div>
 
       <div className="kpis">
 
