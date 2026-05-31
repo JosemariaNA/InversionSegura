@@ -9,6 +9,7 @@ import GraficaUtilidad from "../components/GraficaUtilidad";
 import GraficaMargenes from "../components/GraficaMargenes";
 import GraficaEBITDA from "../components/GraficaEBITDA";
 import TablaEstadoResultados from "../components/TablaEstadoResultados";
+import LoadingSpinner from "../components/LoadingSpinner";
 import "./estilo/Empresa.css";
 
 export default function Empresa() {
@@ -53,7 +54,7 @@ export default function Empresa() {
     }
   };
 
-  if (!empresa) return <h2>Cargando...</h2>;
+  if (!empresa) return <LoadingSpinner />;
 
   const datos = empresa.annualReports
     .slice(0, 10)
