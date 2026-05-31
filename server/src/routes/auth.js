@@ -3,54 +3,66 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const db = require('../db');
+const supabase = require('../db');
 
 // POST /api/auth/registro
 router.post('/registro', async (req, res) => {
-  const { nombre, email, password } = req.body; // Validación básica
+  const { nombre, email, password } = req.body;
   if (!nombre || !email || !password)
     return res.status(400).json({ error: 'Faltan campos obligatorios' });
 
   try {
     const hash = await bcrypt.hash(password, 10);
-    await db.execute(
-      'INSERT INTO usuarios (nombre, email, password_hash) VALUES (?, ?, ?)', // Inserta el nuevo usuario en la base de datos
-      [nombre, email, hash]
-    );
-    res.status(201).json({ mensaje: 'Usuario registrado correctamente' }); // Respuesta exitosa
+
+    const { error } = await supabase
+      .from('usuarios')
+      .insert([{ nombre, email, password_hash: hash }]);
+
+    if (error) {
+      // Código 23505 = unique_violation en PostgreSQL (email duplicado)
+      if (error.code === '23505')
+        return res.status(409).json({ error: 'El email ya está registrado' });
+      throw error;
+    }
+
+    res.status(201).json({ mensaje: 'Usuario registrado correctamente' });
   } catch (err) {
-    if (err.code === 'ER_DUP_ENTRY')
-      return res.status(409).json({ error: 'El email ya está registrado' }); // Manejo de error específico para email duplicado
+    console.error(err);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 });
 
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body; 
-  if (!email || !password) // Validación básica (que no estén vacíos)
+  const { email, password } = req.body;
+  if (!email || !password)
     return res.status(400).json({ error: 'Faltan campos obligatorios' });
 
   try {
-    const [rows] = await db.execute(
-      'SELECT * FROM usuarios WHERE email = ?', [email] // Busca al usuario por email
-    );
-    if (rows.length === 0)
+    const { data: usuarios, error } = await supabase
+      .from('usuarios')
+      .select('*')
+      .eq('email', email)
+      .limit(1);
+
+    if (error) throw error;
+    if (!usuarios || usuarios.length === 0)
       return res.status(401).json({ error: 'Credenciales inválidas' });
 
-    const usuario = rows[0];
-    const valido = await bcrypt.compare(password, usuario.password_hash); // Compara la contraseña ingresada con el hash almacenado
+    const usuario = usuarios[0];
+    const valido = await bcrypt.compare(password, usuario.password_hash);
     if (!valido)
-      return res.status(401).json({ error: 'Credenciales inválidas' }); // Si la contraseña no coincide
+      return res.status(401).json({ error: 'Credenciales inválidas' });
 
     const token = jwt.sign(
       { id: usuario.id, nombre: usuario.nombre },
       process.env.JWT_SECRET,
-      { expiresIn: '8h' } // El token expira en 8 horas
+      { expiresIn: '8h' }
     );
     res.json({ token, nombre: usuario.nombre });
   } catch (err) {
-    res.status(500).json({ error: 'Error interno del servidor' }); // Manejo de errores genérico
+    console.error(err);
+    res.status(500).json({ error: 'Error interno del servidor' });
   }
 });
 

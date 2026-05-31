@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const db = require('../db');
+const supabase = require('../db');
 
 const CACHE_HORAS = parseInt(process.env.CACHE_HORAS) || 24;
 
@@ -23,44 +23,50 @@ router.get('/:simbolo', obtenerUsuario, async (req, res) => {
   const tipo = 'income_statement';
 
   try {
-    // 1. Buscar en caché
-    const [cache] = await db.execute(
-      `SELECT datos, actualizado_en FROM cache_financiero
-       WHERE simbolo = ? AND tipo = ?
-       AND actualizado_en > NOW() - INTERVAL ? HOUR`,
-      [simbolo, tipo, CACHE_HORAS] // Nota: el valor de CACHE_HORAS se define en .env, por ejemplo: CACHE_HORAS=24
-    );
+    // 1. Calcular el tiempo de corte para la caché
+    const cutoff = new Date(Date.now() - CACHE_HORAS * 60 * 60 * 1000).toISOString();
+
+    // 2. Buscar en caché (Supabase filtra por simbolo, tipo y que no haya expirado)
+    const { data: cache } = await supabase
+      .from('cache_financiero')
+      .select('datos, actualizado_en')
+      .eq('simbolo', simbolo)
+      .eq('tipo', tipo)
+      .gte('actualizado_en', cutoff)
+      .limit(1);
 
     let datos;
-    if (cache.length > 0) {
-      const raw = cache[0].datos;
-      datos = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    if (cache && cache.length > 0) {
+      // Los datos JSONB ya vienen parseados desde Supabase
+      datos = cache[0].datos;
     } else {
-      // 2. Llamar a Alpha Vantage
-      const response = await axios.get('https://www.alphavantage.co/query', { // Nota: el endpoint y los parámetros pueden variar según la función que quieras usar
+      // 3. Llamar a Alpha Vantage
+      const response = await axios.get('https://www.alphavantage.co/query', {
         params: {
           function: 'INCOME_STATEMENT',
           symbol: simbolo,
           apikey: process.env.ALPHA_VANTAGE_KEY,
-        },// Nota: asegúrate de que el endpoint y los parámetros coincidan con la función que deseas usar (por ejemplo, BALANCE_SHEET, CASH_FLOW, etc.)
+        },
       });
       datos = response.data;
 
-      // 3. Guardar en caché
-      await db.execute(
-        `INSERT INTO cache_financiero (simbolo, tipo, datos)
-         VALUES (?, ?, ?)
-         ON DUPLICATE KEY UPDATE datos = VALUES(datos), actualizado_en = NOW()`,
-        [simbolo, tipo, JSON.stringify(datos)]
-      );
+      // 4. Guardar / actualizar en caché
+      // ON CONFLICT (simbolo, tipo) → actualiza si ya existe
+      const { error: cacheError } = await supabase
+        .from('cache_financiero')
+        .upsert(
+          [{ simbolo, tipo, datos, actualizado_en: new Date().toISOString() }],
+          { onConflict: 'simbolo,tipo' }
+        );
+
+      if (cacheError) console.error('Error guardando caché:', cacheError);
     }
 
-    // 4. Guardar en historial si hay usuario autenticado
+    // 5. Guardar en historial si hay usuario autenticado
     if (req.usuario) {
-      await db.execute(
-        'INSERT INTO historial_busquedas (usuario_id, simbolo) VALUES (?, ?)',
-        [req.usuario.id, simbolo]
-      );
+      await supabase
+        .from('historial_busquedas')
+        .insert([{ usuario_id: req.usuario.id, simbolo }]);
     }
 
     res.json(datos);
@@ -70,7 +76,7 @@ router.get('/:simbolo', obtenerUsuario, async (req, res) => {
   }
 });
 
-// GET /api/financiero/historial — historial del usuario
+// GET /api/financiero/usuario/historial — historial del usuario autenticado
 router.get('/usuario/historial', async (req, res) => {
   const auth = req.headers.authorization;
   if (!auth) return res.status(401).json({ error: 'No autenticado' });
@@ -78,14 +84,18 @@ router.get('/usuario/historial', async (req, res) => {
   try {
     const jwt = require('jsonwebtoken');
     const usuario = jwt.verify(auth.split(' ')[1], process.env.JWT_SECRET);
-    const [rows] = await db.execute(
-      `SELECT simbolo, buscado_en FROM historial_busquedas
-       WHERE usuario_id = ? ORDER BY buscado_en DESC LIMIT 20`, // Nota: puedes ajustar el límite según tus necesidades
-      [usuario.id]
-    );
+
+    const { data: rows, error } = await supabase
+      .from('historial_busquedas')
+      .select('simbolo, buscado_en')
+      .eq('usuario_id', usuario.id)
+      .order('buscado_en', { ascending: false })
+      .limit(20);
+
+    if (error) throw error;
     res.json(rows);
   } catch {
-    res.status(401).json({ error: 'Token inválido' }); // Nota: el mensaje de error se ha cambiado a "Token inválido" para mayor claridad
+    res.status(401).json({ error: 'Token inválido' });
   }
 });
 

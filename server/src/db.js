@@ -1,15 +1,30 @@
-const mysql = require('mysql2/promise');
-require('dotenv').config();
+const path = require('path');
+// Cargar .env usando ruta absoluta relativa a este archivo para evitar
+// problemas según desde dónde se arranque el proceso
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
-  // Creación del pool de conexiones a la base de datos MySQL
-const pool = mysql.createPool({
-  host:     process.env.DB_HOST,
-  user:     process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port:     process.env.DB_PORT,
-  waitForConnections: true,
-  connectionLimit: 10,
+const { createClient } = require('@supabase/supabase-js');
+
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+// Validación temprana — falla con mensaje claro en lugar de error críptico
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+  console.error('❌  ERROR: Faltan variables de entorno de Supabase.');
+  console.error('   SUPABASE_URL:', SUPABASE_URL || '(vacío)');
+  console.error('   SUPABASE_SERVICE_ROLE_KEY:', SUPABASE_KEY ? '(presente)' : '(vacío)');
+  console.error('   Verifica que el archivo server/.env existe y tiene los valores correctos.');
+  process.exit(1);
+}
+
+// Cliente Supabase con la key proporcionada
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: {
+    autoRefreshToken: false,
+    persistSession: false,
+  },
 });
 
-module.exports = pool;
+console.log('✅  Supabase cliente inicializado →', SUPABASE_URL);
+
+module.exports = supabase;

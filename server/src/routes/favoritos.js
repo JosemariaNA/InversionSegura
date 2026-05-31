@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const db = require('../db');
+const supabase = require('../db');
 
 // Middleware para autenticar al usuario usando JWT
 function autenticar(req, res, next) {
@@ -15,38 +15,50 @@ function autenticar(req, res, next) {
   }
 }
 
-// GET /api/favoritos
+// GET /api/favoritos — obtener favoritos del usuario
 router.get('/', autenticar, async (req, res) => {
-  const [rows] = await db.execute(
-    'SELECT simbolo, nombre_empresa, agregado_en FROM favoritos WHERE usuario_id = ?', // Solo obtener los favoritos del usuario autenticado
-    [req.usuario.id]
-  );
+  const { data: rows, error } = await supabase
+    .from('favoritos')
+    .select('simbolo, nombre_empresa, agregado_en')
+    .eq('usuario_id', req.usuario.id);
+
+  if (error) return res.status(500).json({ error: 'Error al obtener favoritos' });
   res.json(rows);
 });
 
-// POST /api/favoritos
+// POST /api/favoritos — agregar o actualizar favorito
 router.post('/', autenticar, async (req, res) => {
   const { simbolo, nombre_empresa } = req.body;
   try {
-    await db.execute(
-      `INSERT INTO favoritos (usuario_id, simbolo, nombre_empresa)
-       VALUES (?, ?, ?)
-       ON DUPLICATE KEY UPDATE nombre_empresa = VALUES(nombre_empresa)`,
-      [req.usuario.id, simbolo.toUpperCase(), nombre_empresa || null]
-    );
+    const { error } = await supabase
+      .from('favoritos')
+      .upsert(
+        [{
+          usuario_id: req.usuario.id,
+          simbolo: simbolo.toUpperCase(),
+          nombre_empresa: nombre_empresa || null,
+        }],
+        { onConflict: 'usuario_id,simbolo' } // UNIQUE (usuario_id, simbolo)
+      );
+
+    if (error) throw error;
     res.status(201).json({ mensaje: 'Favorito guardado' });
   } catch (err) {
-    res.status(500).json({ error: 'Error al guardar favorito' }); // Manejo de errores genérico
+    console.error(err);
+    res.status(500).json({ error: 'Error al guardar favorito' });
   }
 });
 
-// DELETE /api/favoritos/:simbolo
+// DELETE /api/favoritos/:simbolo — eliminar favorito
 router.delete('/:simbolo', autenticar, async (req, res) => {
-  await db.execute(
-    'DELETE FROM favoritos WHERE usuario_id = ? AND simbolo = ?', // Eliminar el favorito específico del usuario
-    [req.usuario.id, req.params.simbolo.toUpperCase()]
-  );
-  res.json({ mensaje: 'Favorito eliminado' }); // Respuesta genérica, no se verifica si realmente se eliminó algo
+  const { error } = await supabase
+    .from('favoritos')
+    .delete()
+    .eq('usuario_id', req.usuario.id)
+    .eq('simbolo', req.params.simbolo.toUpperCase());
+
+  if (error) return res.status(500).json({ error: 'Error al eliminar favorito' });
+  res.json({ mensaje: 'Favorito eliminado' });
 });
 
 module.exports = router;
