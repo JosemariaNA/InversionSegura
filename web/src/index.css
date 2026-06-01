@@ -48,6 +48,13 @@ body {
   font-size: 1.8rem;
 }
 
+.logo-icon img{
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .logo-text {
   font-size: 1.4rem;
   font-weight: 700;

@@ -14,7 +14,9 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="nav-content">
         <Link to="/" className="nav-logo">
-          <span className="logo-icon">💰</span>
+          <span className="logo-icon">
+            <img src="/logo.png" alt="Logo" className="logo-image" />
+          </span>
           <span className="logo-text">InversionSegura</span>
         </Link>
         
