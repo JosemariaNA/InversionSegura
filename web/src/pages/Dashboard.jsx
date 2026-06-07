@@ -10,8 +10,18 @@ export default function Dashboard() {
   const nombre = localStorage.getItem('nombre');
 
   useEffect(() => {
-    api.get('/api/financiero/usuario/historial').then(r => setHistorial(r.data));
-    api.get('/api/favoritos').then(r => setFavoritos(r.data));
+    api.get('/api/financiero/usuario/historial')
+      .then(r => setHistorial(r.data))
+      .catch(err => {
+        console.error('Error cargando historial:', err);
+        setHistorial([]);
+      });
+    api.get('/api/favoritos')
+      .then(r => setFavoritos(r.data))
+      .catch(err => {
+        console.error('Error cargando favoritos:', err);
+        setFavoritos([]);
+      });
   }, []);
 
   const buscar = () => {
