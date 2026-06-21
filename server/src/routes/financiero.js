@@ -62,11 +62,25 @@ router.get('/:simbolo', obtenerUsuario, async (req, res) => {
       if (cacheError) console.error('Error guardando caché:', cacheError);
     }
 
-    // 5. Guardar en historial si hay usuario autenticado
+    // 5. Guardar en historial si hay usuario autenticado (sin duplicados)
     if (req.usuario) {
-      await supabase
-        .from('historial_busquedas')
-        .insert([{ usuario_id: req.usuario.id, simbolo }]);
+      try {
+        // Primero elimina el registro anterior si existe
+        await supabase
+          .from('historial_busquedas')
+          .delete()
+          .eq('usuario_id', req.usuario.id)
+          .eq('simbolo', simbolo);
+
+        // Luego inserta el nuevo (con fecha actualizada)
+        const { error: insertError } = await supabase
+          .from('historial_busquedas')
+          .insert([{ usuario_id: req.usuario.id, simbolo, buscado_en: new Date().toISOString() }]);
+
+        if (insertError) console.error('Error guardando historial:', insertError);
+      } catch (err) {
+        console.error('Error actualizando historial:', err);
+      }
     }
 
     res.json(datos);

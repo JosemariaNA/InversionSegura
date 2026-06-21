@@ -43,7 +43,7 @@ export default function Empresa() {
       } else {
         await api.post('/api/favoritos', {
           simbolo: empresa.symbol,
-          nombre_empresa: empresa.symbol
+          nombre_empresa: empresa.longName || empresa.symbol
         });
       }
       setIsFavorite(!isFavorite);
