@@ -50,6 +50,11 @@ router.get('/:simbolo', obtenerUsuario, async (req, res) => {
       });
       datos = response.data;
 
+      // Validar si Alpha Vantage retorna un error o si no hay datos
+      if (datos['Error Message'] || datos.Note || !datos.annualReports || datos.annualReports.length === 0) {
+        return res.status(404).json({ error: 'Ticker no encontrado o no existente' });
+      }
+
       // 4. Guardar / actualizar en caché
       // ON CONFLICT (simbolo, tipo) → actualiza si ya existe
       const { error: cacheError } = await supabase

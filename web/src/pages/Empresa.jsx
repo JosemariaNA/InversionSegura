@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import api from "../api";
 
 import TarjetaMetrica from "../components/TarjetaMetrica";
@@ -15,16 +15,28 @@ import "./estilo/Empresa.css";
 export default function Empresa() {
 
   const { simbolo } = useParams();
+  const navigate = useNavigate();
 
   const [empresa, setEmpresa] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
 
     api
       .get(`/api/financiero/${simbolo}`)
-      .then((res) => setEmpresa(res.data));
+      .then((res) => {
+        // Validar que los datos tengan la estructura esperada
+        if (!res.data || !res.data.annualReports) {
+          throw new Error('Ticker no encontrado o no existe');
+        }
+        setEmpresa(res.data);
+      })
+      .catch((err) => {
+        const errorMsg = err.response?.data?.error || err.message || 'Error al obtener datos del ticker';
+        setError(errorMsg);
+      });
 
     api
       .get('/api/favoritos')
@@ -34,7 +46,7 @@ export default function Empresa() {
       })
       .catch(() => setIsFavorite(false));
 
-  }, [simbolo]);
+  }, [simbolo, navigate]);
 
   const handleAddFavorite = async () => {
     try {
@@ -53,6 +65,27 @@ export default function Empresa() {
       console.error('Error al guardar favorito:', err);
     }
   };
+
+  if (error) {
+    return (
+      <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0, 0, 0, 0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10000 }}>
+        <div style={{ backgroundColor: 'white', padding: '40px', borderRadius: '12px', textAlign: 'center', boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)', maxWidth: '400px', animation: 'slideIn 0.3s ease-out' }}>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}>⚠️</div>
+          <h2 style={{ color: '#1f2937', marginBottom: '12px', fontSize: '20px' }}>Ticker No Encontrado</h2>
+          <p style={{ color: '#6b7280', marginBottom: '24px', fontSize: '14px' }}>{error}</p>
+          <button onClick={() => navigate('/')} style={{ backgroundColor: '#ef4444', color: 'white', padding: '10px 32px', border: 'none', borderRadius: '6px', fontSize: '16px', fontWeight: '600', cursor: 'pointer', transition: 'background-color 0.2s' }} onMouseOver={(e) => e.target.style.backgroundColor = '#dc2626'} onMouseOut={(e) => e.target.style.backgroundColor = '#ef4444'}>
+            Aceptar
+          </button>
+          <style>{`
+            @keyframes slideIn {
+              from { opacity: 0; transform: scale(0.95); }
+              to { opacity: 1; transform: scale(1); }
+            }
+          `}</style>
+        </div>
+      </div>
+    );
+  }
 
   if (!empresa) return <LoadingSpinner />;
 
