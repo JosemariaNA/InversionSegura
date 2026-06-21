@@ -16,7 +16,7 @@ Una aplicación web diseñada para consultar, analizar e interpretar el estado d
 Este proyecto fue desarrollado de manera colaborativa por:
 
 - **Lazaro Barrientos Eduardo Enrique** - *[Rol, Frontend / Backend / QA / Documentación]* - [GitHub](https://github.com/)
-- **Napan Aparcana Josemaría** - *[Rol, Frontend / Backend / QA / Documentación]* - [GitHub](https://github.com/JosemariaNA)
+- **Napan Aparcana Josemaria** - *[Rol, Frontend / Backend / QA / Documentación]* - [GitHub](https://github.com/JosemariaNA)
 - **Rocha Luna Junior Duvan** - *[Rol, Frontend / Backend / QA / Documentación]* - [GitHub](https://github.com/JunRoLu-byte)
 
 ## 🏗️ Arquitectura del Proyecto
