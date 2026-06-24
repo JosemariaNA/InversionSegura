@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../api";
 
 import TarjetaMetrica from "../components/TarjetaMetrica";
+import TarjetaAnalisisEstadistico from "../components/TarjetaAnalisisEstadistico";
 import GraficaIngresosVsCostos from "../components/GraficaIngresosVsCostos";
 import GraficaGastosOperativos from "../components/GraficaGastosOperativos";
 import GraficaUtilidad from "../components/GraficaUtilidad";
@@ -248,6 +249,8 @@ export default function Empresa() {
           valor={ultimo.ebitda}
           color="#8b5cf6"
         />
+
+        <TarjetaAnalisisEstadistico datos={datos} />
 
       </div>
 
