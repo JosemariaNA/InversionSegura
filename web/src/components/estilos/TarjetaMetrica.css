@@ -1,17 +1,23 @@
+/* ══════════════════════════════════════════════════════════════
+   TarjetaMetrica — Premium Dark Glass Dashboard
+   ══════════════════════════════════════════════════════════════ */
+
 .kpis {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px;
+  gap: 14px;
   margin-bottom: 25px;
 }
 
 .tarjeta-metrica {
-  background: linear-gradient(135deg, #111111 0%, #0f0f0f 100%);
-  padding: 16px;
-  border-radius: 10px;
-  border: 2px solid var(--color-border, rgba(16, 185, 129, 0.3));
-  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.08);
-  transition: all 0.3s ease;
+  background: var(--glass-bg, rgba(18, 24, 36, 0.45));
+  backdrop-filter: var(--glass-blur, blur(24px));
+  -webkit-backdrop-filter: var(--glass-blur, blur(24px));
+  padding: 18px;
+  border-radius: var(--radius-md, 12px);
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.05));
+  box-shadow: var(--glass-shadow, 0 8px 32px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   min-height: 100px;
@@ -27,14 +33,14 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, var(--color-light, rgba(59, 130, 246, 0.1)), transparent);
-  transition: left 0.5s ease;
+  background: linear-gradient(90deg, transparent, rgba(238, 193, 93, 0.06), transparent);
+  transition: left 0.6s ease;
 }
 
 .tarjeta-metrica:hover {
   transform: translateY(-3px);
-  border-color: var(--color-primary, #10b981);
-  box-shadow: 0 6px 24px var(--color-light, rgba(16, 185, 129, 0.15));
+  border-color: var(--glass-border-hover, rgba(255, 255, 255, 0.1));
+  box-shadow: var(--glass-shadow-hover, 0 12px 40px rgba(0, 0, 0, 0.4));
 }
 
 .tarjeta-metrica:hover::before {
@@ -45,25 +51,31 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 4px;
+  width: 3px;
   height: 100%;
-  background: var(--color-primary, #10b981);
-  border-radius: 10px 0 0 10px;
+  background: var(--color-primary, var(--accent-gold, #EEC15D));
+  border-radius: 12px 0 0 12px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.tarjeta-metrica:hover .color-indicator {
+  opacity: 1;
 }
 
 .tarjeta-metrica h4 {
-  color: #94a3b8;
-  margin: 0 0 4px 0;
+  color: var(--text-muted, #98A79E);
+  margin: 0 0 6px 0;
   font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.6px;
 }
 
 .tarjeta-metrica h2 {
   margin: 0;
   font-size: 20px;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-primary, #FFFFFF);
   letter-spacing: -0.5px;
 }

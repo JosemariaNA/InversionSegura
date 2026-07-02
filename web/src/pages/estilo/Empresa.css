@@ -1,25 +1,20 @@
-body {
-  margin: 0;
-  background: linear-gradient(135deg, #050505 0%, #0a0a0a 100%);
-  color: white;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* ══════════════════════════════════════════════════════════════
+   Empresa Page — Premium Dark Glass Dashboard
+   ══════════════════════════════════════════════════════════════ */
 
 .empresa-container {
   max-width: 1600px;
   margin: auto;
-  padding: 30px 20px;
+  padding: 30px 24px;
+  position: relative;
+  z-index: 1;
 }
 
 .empresa-container h1 {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   font-size: 42px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent-gold, #EEC15D) 20%, var(--accent-teal, #58B6A6) 80%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -34,30 +29,35 @@ body {
 }
 
 .grafica-card {
-  background: linear-gradient(135deg, #111111 0%, #0f0f0f 100%);
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.12);
-  transition: all 0.3s ease;
+  background: var(--glass-bg, rgba(18, 24, 36, 0.45));
+  backdrop-filter: var(--glass-blur, blur(24px));
+  -webkit-backdrop-filter: var(--glass-blur, blur(24px));
+  padding: 22px;
+  border-radius: var(--radius-md, 12px);
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.05));
+  box-shadow: var(--glass-shadow, 0 8px 32px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .grafica-card:hover {
-  border-color: rgba(16, 185, 129, 0.5);
-  box-shadow: 0 6px 24px rgba(16, 185, 129, 0.2);
+  border-color: var(--glass-border-hover, rgba(255, 255, 255, 0.1));
+  box-shadow: var(--glass-shadow-hover, 0 12px 40px rgba(0, 0, 0, 0.4));
+  transform: translateY(-2px);
 }
 
 .grafica-card h2 {
   margin: 0 0 15px 0;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
-  color: #e2e8f0;
+  color: var(--text-secondary, #C9CDD3);
+  letter-spacing: 0.2px;
 }
 
 .tabla-container {
   grid-column: 1 / -1;
 }
 
+/* ─── Responsive ─── */
 @media (max-width: 1400px) {
   .graficas-container {
     grid-template-columns: repeat(2, 1fr);
@@ -70,7 +70,7 @@ body {
   }
 
   .empresa-container h1 {
-    font-size: 36px;
+    font-size: 34px;
     margin-bottom: 16px;
   }
 
@@ -95,11 +95,11 @@ body {
   }
 
   .grafica-card {
-    padding: 12px;
+    padding: 14px;
   }
 
   .grafica-card h2 {
-    font-size: 14px;
+    font-size: 13px;
     margin-bottom: 12px;
   }
 }

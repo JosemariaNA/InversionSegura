@@ -9,27 +9,50 @@ export default function LoadingSpinner() {
           justify-content: center;
           align-items: center;
           min-height: 100vh;
-          background: linear-gradient(135deg, #050505 0%, #0a0a0a 100%);
+          background: transparent;
+          position: relative;
+          z-index: 1;
         }
 
         .loading-spinner {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 24px;
+          gap: 28px;
+          padding: 48px 56px;
+          background: rgba(18, 24, 36, 0.45);
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 20px;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+          animation: spinnerFadeIn 0.6s ease-out;
+        }
+
+        @keyframes spinnerFadeIn {
+          from {
+            opacity: 0;
+            transform: scale(0.95) translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
         }
 
         .spinner-image {
           width: 80px;
           height: 80px;
           object-fit: contain;
+          filter: drop-shadow(0 0 16px rgba(238, 193, 93, 0.2));
         }
 
         .loading-text {
-          color: #e2e8f0;
-          font-size: 18px;
+          color: #C9CDD3;
+          font-size: 16px;
           font-weight: 500;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.3px;
+          font-family: 'Inter', sans-serif;
         }
 
         .loading-dots::after {
@@ -38,18 +61,10 @@ export default function LoadingSpinner() {
         }
 
         @keyframes dots {
-          0%, 20% {
-            content: '';
-          }
-          40% {
-            content: '.';
-          }
-          60% {
-            content: '..';
-          }
-          80%, 100% {
-            content: '...';
-          }
+          0%, 20% { content: ''; }
+          40% { content: '.'; }
+          60% { content: '..'; }
+          80%, 100% { content: '...'; }
         }
       `}</style>
 
