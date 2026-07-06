@@ -66,4 +66,80 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Middleware estricto para verificar token
+function verificarToken(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ error: 'No autorizado' });
+
+  const token = authHeader.split(' ')[1];
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    req.usuario = payload;
+    next();
+  } catch (err) {
+    return res.status(401).json({ error: 'Token inválido o expirado' });
+  }
+}
+
+// GET /api/auth/perfil
+router.get('/perfil', verificarToken, async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('usuarios')
+      .select('nombre, email, avatar_url, telefono')
+      .eq('id', req.usuario.id)
+      .single();
+
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error al obtener perfil' });
+  }
+});
+
+// PUT /api/auth/perfil
+router.put('/perfil', verificarToken, async (req, res) => {
+  const { nombre, email, telefono, avatar_url, passwordActual, passwordNueva } = req.body;
+
+  try {
+    if (passwordNueva) {
+      if (!passwordActual) return res.status(400).json({ error: 'Debe proporcionar la contraseña actual para cambiarla' });
+
+      const { data: usuario, error: fetchErr } = await supabase
+        .from('usuarios')
+        .select('password_hash')
+        .eq('id', req.usuario.id)
+        .single();
+        
+      if (fetchErr) throw fetchErr;
+
+      const valido = await bcrypt.compare(passwordActual, usuario.password_hash);
+      if (!valido) return res.status(401).json({ error: 'La contraseña actual es incorrecta' });
+
+      const hash = await bcrypt.hash(passwordNueva, 10);
+      
+      const { error } = await supabase
+        .from('usuarios')
+        .update({ nombre, email, telefono, avatar_url, password_hash: hash })
+        .eq('id', req.usuario.id);
+        
+      if (error) throw error;
+    } else {
+      const { error } = await supabase
+        .from('usuarios')
+        .update({ nombre, email, telefono, avatar_url })
+        .eq('id', req.usuario.id);
+        
+      if (error) throw error;
+    }
+
+    res.json({ mensaje: 'Perfil actualizado correctamente' });
+  } catch (err) {
+    console.error(err);
+    if (err.code === '23505') return res.status(409).json({ error: 'El email ya está en uso' });
+    res.status(500).json({ error: 'Error al actualizar perfil' });
+  }
+});
+
 module.exports = router;

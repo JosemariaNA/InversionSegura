@@ -6,9 +6,22 @@ require('dotenv').config(); // Cargar variables de entorno desde el archivo .env
 const app = express();
 const PORT = process.env.PORT || 3000;
  
+const allowedOrigins = [
+  process.env.FRONTEND_URL, 
+  'http://localhost:5173', 
+  'http://localhost:3000'
+];
+
 // Middleware (que se ejecuta antes de las rutas)
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "*",
+  origin: function(origin, callback) {
+    // Permitir solicitudes sin origen (como las de Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
   credentials: true
 }));
 
@@ -18,10 +31,11 @@ app.use(express.json());
 app.use('/api/auth',       require('./routes/auth'));
 app.use('/api/financiero', require('./routes/financiero'));
 app.use('/api/favoritos',  require('./routes/favoritos'));
+app.use('/api/control',    require('./routes/control'));
 
 // Ruta de prueba
 app.get('/', (req, res) => {
-  res.json({ mensaje: 'Servidor InversionSegura funcionando ✅' });
+  res.json({ mensaje: 'Servidor HighSpec funcionando ✅' });
 });
 
 // Iniciar el servidor

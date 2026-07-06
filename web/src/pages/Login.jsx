@@ -32,7 +32,7 @@ export default function Login() {
       <div className="auth-container">
         <div className="auth-card">
           <div className="auth-header">
-            <h1>InversionSegura</h1>
+            <h1>HighSpec</h1>
             <h2>Iniciar Sesión</h2>
             <p className="auth-subtitle">Accede a tu panel financiero</p>
           </div>

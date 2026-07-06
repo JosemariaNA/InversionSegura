@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
+import DashboardLayout from '../components/DashboardLayout';
 
 export default function Dashboard() {
-  const [simbolo,   setSimbol]   = useState('');
   const [historial, setHistorial] = useState([]);
   const [favoritos, setFavoritos] = useState([]);
   const navigate = useNavigate();
-  const nombre = localStorage.getItem('nombre');
 
   useEffect(() => {
     api.get('/api/financiero/usuario/historial')
@@ -24,24 +23,8 @@ export default function Dashboard() {
       });
   }, []);
 
-  const buscar = () => {
-    if (simbolo.trim()) navigate(`/empresa/${simbolo.toUpperCase()}`);
-  };
-
   return (
-    <div className="dashboard">
-      <h2>Bienvenido, {nombre} 👋</h2>
-
-      <div className="buscador">
-        <input
-          placeholder="Buscar empresa: AAPL, MSFT, TSLA..."
-          value={simbolo}
-          onChange={e => setSimbol(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && buscar()}
-        />
-        <button onClick={buscar}>Analizar</button>
-      </div>
-
+    <DashboardLayout>
       <div className="panel-doble">
         <div className="panel">
           <h3>🕘 Historial reciente</h3>
@@ -67,6 +50,10 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
-    </div>
+      
+      <div className="vistazo-financiero">
+         {/* Espacio para los widgets del vistazo financiero si existieran, se asume que están abajo */}
+      </div>
+    </DashboardLayout>
   );
 }

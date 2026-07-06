@@ -23,9 +23,9 @@
 
 .graficas-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 24px;
+  margin-bottom: 30px;
 }
 
 .grafica-card {

@@ -15,15 +15,16 @@ export default function Navbar() {
       <div className="nav-content">
         <Link to="/" className="nav-logo">
           <span className="logo-icon">
-            <img src="/logo.png" alt="Logo" className="logo-image" />
+            <img src="/logo.jpeg" alt="Logo" className="logo-image" />
           </span>
-          <span className="logo-text">InversionSegura</span>
+          <span className="logo-text">HighSpec</span>
         </Link>
         
         <div className="nav-links">
           {token ? (
             <>
               <div className="nav-user">
+                <Link to="/control" className="nav-link nav-link-primary" style={{ marginRight: '15px' }}>Ir al Panel</Link>
                 <span className="user-greeting">👤 {nombre}</span>
                 <button onClick={cerrarSesion} className="nav-logout">
                   Cerrar sesión

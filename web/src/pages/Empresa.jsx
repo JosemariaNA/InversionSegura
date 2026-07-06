@@ -11,6 +11,7 @@ import GraficaMargenes from "../components/GraficaMargenes";
 import GraficaEBITDA from "../components/GraficaEBITDA";
 import TablaEstadoResultados from "../components/TablaEstadoResultados";
 import LoadingSpinner from "../components/LoadingSpinner";
+import DashboardLayout from "../components/DashboardLayout";
 import "./estilo/Empresa.css";
 
 export default function Empresa() {
@@ -133,6 +134,7 @@ export default function Empresa() {
   const ultimo = datos[datos.length - 1];
 
   return (
+    <DashboardLayout>
     <div className="empresa-container">
 
       {showMessage && (
@@ -289,5 +291,6 @@ export default function Empresa() {
       </div>
 
     </div>
+    </DashboardLayout>
   );
 }
