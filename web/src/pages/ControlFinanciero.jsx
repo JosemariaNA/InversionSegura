@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { BarChart2 } from 'lucide-react';
 import DashboardLayout from '../components/DashboardLayout';
 import api from '../api';
 import './estilo/ControlFinanciero.css';
@@ -84,7 +85,7 @@ export default function ControlFinanciero() {
           </div>
           <div className="header-illustration">
             <div className="illustration-wrapper">
-              <span style={{ fontSize: '4rem' }}>📊</span>
+              <BarChart2 size={64} />
             </div>
           </div>
         </header>

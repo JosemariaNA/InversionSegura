@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { FileEdit, User, Mail, Phone, Lock, Unlock, LockKeyhole, Bell, Info } from 'lucide-react';
 import DashboardLayout from '../components/DashboardLayout';
 import api from '../api';
 import './estilo/Perfil.css';
@@ -133,7 +134,7 @@ export default function Perfil() {
         </div>
         <div className="perfil-actions-top-right">
           <button className="btn-edit" onClick={() => setIsEditing(true)}>
-            <span style={{marginRight: '8px'}}>📝</span> Editar Perfil
+            <FileEdit size={16} style={{verticalAlign: 'text-bottom', marginRight: '8px'}} /> Editar Perfil
           </button>
         </div>
       </div>
@@ -143,26 +144,26 @@ export default function Perfil() {
       <div className="perfil-panels">
         <div className="perfil-panel">
           <div className="panel-header">
-            <span className="icon-circle">ℹ️</span>
+            <span className="icon-circle"><Info size={24} /></span>
             <h3>Detalles del Perfil</h3>
           </div>
           <div className="panel-body">
             <div className="info-row">
-              <span className="icon">👤</span>
+              <span className="icon"><User size={24} color="#10b981" /></span>
               <div className="info-text">
                 <span className="label">Nombre Completo:</span>
                 <span className="value">{perfil.nombre}</span>
               </div>
             </div>
             <div className="info-row">
-              <span className="icon">✉️</span>
+              <span className="icon"><Mail size={24} color="#10b981" /></span>
               <div className="info-text">
                 <span className="label">Correo Electrónico:</span>
                 <span className="value">{perfil.email}</span>
               </div>
             </div>
             <div className="info-row">
-              <span className="icon">📞</span>
+              <span className="icon"><Phone size={24} color="#10b981" /></span>
               <div className="info-text">
                 <span className="label">Teléfono:</span>
                 <span className="value">{perfil.telefono || 'No registrado'}</span>
@@ -173,26 +174,26 @@ export default function Perfil() {
 
         <div className="perfil-panel">
           <div className="panel-header">
-            <span className="icon-circle">🔒</span>
+            <span className="icon-circle"><Lock size={24} /></span>
             <h3>Seguridad de Cuenta</h3>
           </div>
           <div className="panel-body">
             <div className="info-row">
-              <span className="icon">🔓</span>
+              <span className="icon"><Unlock size={24} color="#3b82f6" /></span>
               <div className="info-text">
                 <span className="label">Contraseña:</span>
                 <span className="value">Protegida</span>
               </div>
             </div>
             <div className="info-row">
-              <span className="icon">🔐</span>
+              <span className="icon"><LockKeyhole size={24} color="#3b82f6" /></span>
               <div className="info-text">
                 <span className="label">Doble Factor (2FA):</span>
                 <span className="value">Habilitada</span>
               </div>
             </div>
             <div className="info-row">
-              <span className="icon">🔔</span>
+              <span className="icon"><Bell size={24} color="#3b82f6" /></span>
               <div className="info-text">
                 <span className="label">Alertas de Inicio:</span>
                 <span className="value">Activas</span>
@@ -214,7 +215,7 @@ export default function Perfil() {
         <div className="edit-column">
           <div className="perfil-panel">
             <div className="panel-header">
-              <span className="icon-circle">ℹ️</span>
+              <span className="icon-circle"><Info size={24} /></span>
               <h3>Información Básica</h3>
             </div>
             <div className="panel-body">
@@ -250,7 +251,7 @@ export default function Perfil() {
         <div className="edit-column">
           <div className="perfil-panel">
             <div className="panel-header">
-              <span className="icon-circle">🔒</span>
+              <span className="icon-circle"><Lock size={24} /></span>
               <h3>Seguridad y Contraseña</h3>
             </div>
             <div className="panel-body">

@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { User, PiggyBank, Search, Settings } from 'lucide-react';
 
 export default function DashboardLayout({ children, onSearch, hideSearch }) {
   const location = useLocation();
@@ -9,9 +10,9 @@ export default function DashboardLayout({ children, onSearch, hideSearch }) {
   const [simbolo, setSimbolo] = useState('');
 
   const menu = [
-    { path: '/perfil', name: 'Mi Perfil', icon: '👤', id: 'perfil' },
-    { path: '/control', name: 'Control Financiero', icon: '🐷', id: 'control' },
-    { path: '/buscar', name: 'Buscar Empresas', icon: '🔍', id: 'buscar' },
+    { path: '/perfil', name: 'Mi Perfil', icon: <User size={20} />, id: 'perfil' },
+    { path: '/control', name: 'Control Financiero', icon: <PiggyBank size={20} />, id: 'control' },
+    { path: '/buscar', name: 'Buscar Empresas', icon: <Search size={20} />, id: 'buscar' },
   ];
 
   // Logic for search from topbar
@@ -39,7 +40,7 @@ export default function DashboardLayout({ children, onSearch, hideSearch }) {
           onClick={() => navigate('/')}
           style={{ cursor: 'pointer' }}
         >
-          <img src="/logo.png" alt="Logo" className="sidebar-logo" />
+          <img src="/logo.jpg" alt="Logo" className="sidebar-logo" />
           <span className="sidebar-title">HighSpec</span>
         </div>
 
@@ -87,7 +88,7 @@ export default function DashboardLayout({ children, onSearch, hideSearch }) {
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                 />
                 <button className="search-btn" onClick={handleSearch}>
-                  🔍
+                  <Search size={18} />
                 </button>
               </>
             )}
@@ -95,8 +96,8 @@ export default function DashboardLayout({ children, onSearch, hideSearch }) {
 
           <div className="topbar-user">
             <div className="user-profile">
-              <span className="user-avatar">👤</span>
-              <span className="user-name">{nombre} ⚙️</span>
+              <span className="user-avatar"><User size={20} /></span>
+              <span className="user-name">{nombre} <Settings size={16} style={{marginLeft: '4px'}} /></span>
             </div>
             <button className="btn-logout" onClick={cerrarSesion}>Cerrar sesión</button>
           </div>

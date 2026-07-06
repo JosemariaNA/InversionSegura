@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { X, TriangleAlert, CircleAlert, BarChart2, DollarSign, Target, TrendingUp, Calculator, Scale, Check, FileText, Info } from 'lucide-react';
 import "./estilos/ModalAnalisisCompleto.css";
 
 export default function ModalAnalisisCompleto({ analisis, onClose }) {
@@ -56,7 +57,7 @@ export default function ModalAnalisisCompleto({ analisis, onClose }) {
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>Análisis Estadístico Completo</h2>
-          <button className="btn-cerrar" onClick={onClose}>✕</button>
+          <button className="btn-cerrar" onClick={onClose}><X size={24} /></button>
         </div>
 
         <div className="modal-body">
@@ -64,7 +65,7 @@ export default function ModalAnalisisCompleto({ analisis, onClose }) {
           {/* Advertencia de datos insuficientes */}
           {analisis.advertenciaDatos && (
             <div className="banner-advertencia">
-              <span className="banner-icon">⚠️</span>
+              <span className="banner-icon"><TriangleAlert size={24} color="#f59e0b" /></span>
               <div>
                 <strong>Muestra pequeña (n = {analisis.n})</strong>
                 <p>Con menos de 5 observaciones, la inferencia estadística puede no ser confiable. Los resultados deben interpretarse con precaución.</p>
@@ -75,7 +76,7 @@ export default function ModalAnalisisCompleto({ analisis, onClose }) {
           {/* Error de consistencia */}
           {!analisis.consistente && (
             <div className="banner-error-consistencia">
-              <span className="banner-icon">🔴</span>
+              <span className="banner-icon"><CircleAlert size={24} color="#ef4444" /></span>
               <div>
                 <strong>Inconsistencia detectada</strong>
                 <p>La decisión por p-value ({analisis.rechazaPorP ? 'rechaza' : 'no rechaza'} H₀) difiere de la decisión por t vs t-crítico ({analisis.rechazaPorT ? 'rechaza' : 'no rechaza'} H₀). Esto puede deberse a limitaciones en la precisión numérica del cálculo.</p>
@@ -89,7 +90,7 @@ export default function ModalAnalisisCompleto({ analisis, onClose }) {
               className="accordion-header"
               onClick={() => toggleSection('prueba')}
             >
-              <span>📊 Prueba Utilizada</span>
+              <span><BarChart2 size={18} style={{verticalAlign: 'text-bottom', marginRight: '8px'}} /> Prueba Utilizada</span>
               <span className="toggle-icon">{expanded.prueba ? '−' : '+'}</span>
             </button>
             {expanded.prueba && (
@@ -105,7 +106,7 @@ export default function ModalAnalisisCompleto({ analisis, onClose }) {
               className="accordion-header"
               onClick={() => toggleSection('variable')}
             >
-              <span>💰 Variable Analizada</span>
+              <span><DollarSign size={18} style={{verticalAlign: 'text-bottom', marginRight: '8px'}} /> Variable Analizada</span>
               <span className="toggle-icon">{expanded.variable ? '−' : '+'}</span>
             </button>
             {expanded.variable && (
@@ -122,7 +123,7 @@ export default function ModalAnalisisCompleto({ analisis, onClose }) {
               className="accordion-header"
               onClick={() => toggleSection('hipotesis')}
             >
-              <span>🎯 Hipótesis</span>
+              <span><Target size={18} style={{verticalAlign: 'text-bottom', marginRight: '8px'}} /> Hipótesis</span>
               <span className="toggle-icon">{expanded.hipotesis ? '−' : '+'}</span>
             </button>
             {expanded.hipotesis && (
@@ -150,7 +151,7 @@ export default function ModalAnalisisCompleto({ analisis, onClose }) {
               className="accordion-header"
               onClick={() => toggleSection('datos')}
             >
-              <span>📈 Datos Históricos Utilizados</span>
+              <span><TrendingUp size={18} style={{verticalAlign: 'text-bottom', marginRight: '8px'}} /> Datos Históricos Utilizados</span>
               <span className="toggle-icon">{expanded.datos ? '−' : '+'}</span>
             </button>
             {expanded.datos && (
@@ -185,7 +186,7 @@ export default function ModalAnalisisCompleto({ analisis, onClose }) {
               className="accordion-header"
               onClick={() => toggleSection('formula')}
             >
-              <span>🧮 Fórmula Aplicada</span>
+              <span><Calculator size={18} style={{verticalAlign: 'text-bottom', marginRight: '8px'}} /> Fórmula Aplicada</span>
               <span className="toggle-icon">{expanded.formula ? '−' : '+'}</span>
             </button>
             {expanded.formula && (
@@ -221,7 +222,7 @@ export default function ModalAnalisisCompleto({ analisis, onClose }) {
               className="accordion-header"
               onClick={() => toggleSection('resultados')}
             >
-              <span>📊 Resultados del Análisis</span>
+              <span><BarChart2 size={18} style={{verticalAlign: 'text-bottom', marginRight: '8px'}} /> Resultados del Análisis</span>
               <span className="toggle-icon">{expanded.resultados ? '−' : '+'}</span>
             </button>
             {expanded.resultados && (
@@ -274,7 +275,7 @@ export default function ModalAnalisisCompleto({ analisis, onClose }) {
               className="accordion-header"
               onClick={() => toggleSection('decision')}
             >
-              <span>⚖️ Decisión Estadística</span>
+              <span><Scale size={18} style={{verticalAlign: 'text-bottom', marginRight: '8px'}} /> Decisión Estadística</span>
               <span className="toggle-icon">{expanded.decision ? '−' : '+'}</span>
             </button>
             {expanded.decision && (
@@ -282,7 +283,7 @@ export default function ModalAnalisisCompleto({ analisis, onClose }) {
                 <div className={`decision-box ${analisis.rechazaH0 ? 'rechaza' : 'no-rechaza'}`}>
                   {analisis.rechazaH0 ? (
                     <>
-                      <h4>✓ Se rechaza H₀</h4>
+                      <h4><Check size={20} color="#10b981" style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> Se rechaza H₀</h4>
                       <div className="criterios-decision">
                         <p><strong>Criterio 1 (p-value):</strong> p-value ({analisis.pValue.toFixed(6)}) &lt; α (0.05) → <span className="criterio-cumple">Se rechaza H₀</span></p>
                         <p><strong>Criterio 2 (t-estadístico):</strong> t ({analisis.tStatistic.toFixed(4)}) &gt; t-crítico ({analisis.valorCritico.toFixed(4)}) → <span className="criterio-cumple">{analisis.rechazaPorT ? 'Se rechaza H₀' : 'No se rechaza H₀'}</span></p>
@@ -293,7 +294,7 @@ export default function ModalAnalisisCompleto({ analisis, onClose }) {
                     </>
                   ) : (
                     <>
-                      <h4>✗ No se rechaza H₀</h4>
+                      <h4><X size={20} color="#ef4444" style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> No se rechaza H₀</h4>
                       <div className="criterios-decision">
                         <p><strong>Criterio 1 (p-value):</strong> p-value ({analisis.pValue.toFixed(6)}) ≥ α (0.05) → <span className="criterio-no-cumple">No se rechaza H₀</span></p>
                         <p><strong>Criterio 2 (t-estadístico):</strong> t ({analisis.tStatistic.toFixed(4)}) {analisis.rechazaPorT ? '>' : '≤'} t-crítico ({analisis.valorCritico.toFixed(4)}) → <span className="criterio-no-cumple">{analisis.rechazaPorT ? 'Se rechaza H₀' : 'No se rechaza H₀'}</span></p>
@@ -314,7 +315,7 @@ export default function ModalAnalisisCompleto({ analisis, onClose }) {
               className="accordion-header"
               onClick={() => toggleSection('interpretacion')}
             >
-              <span>📝 Interpretación Ejecutiva</span>
+              <span><FileText size={18} style={{verticalAlign: 'text-bottom', marginRight: '8px'}} /> Interpretación Ejecutiva</span>
               <span className="toggle-icon">{expanded.interpretacion ? '−' : '+'}</span>
             </button>
             {expanded.interpretacion && (
@@ -328,7 +329,7 @@ export default function ModalAnalisisCompleto({ analisis, onClose }) {
 
           {/* Tooltips informativos */}
           <section className="info-section">
-            <h3>ℹ️ Conceptos Clave</h3>
+            <h3><Info size={20} style={{verticalAlign: 'text-bottom', marginRight: '8px'}} /> Conceptos Clave</h3>
             <div className="tooltips-container">
               <div className="tooltip-item">
                 <strong>p-value:</strong> Probabilidad de obtener un estadístico igual o más extremo que el observado, asumiendo que H₀ es verdadera. Valores menores indican mayor evidencia contra H₀.

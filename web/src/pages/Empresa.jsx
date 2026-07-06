@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { TriangleAlert, CircleCheck, CircleX, Star } from 'lucide-react';
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../api";
 
@@ -72,7 +73,9 @@ export default function Empresa() {
     return (
       <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0, 0, 0, 0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10000 }}>
         <div style={{ backgroundColor: 'white', padding: '40px', borderRadius: '12px', textAlign: 'center', boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)', maxWidth: '400px', animation: 'slideIn 0.3s ease-out' }}>
-          <div style={{ fontSize: '48px', marginBottom: '16px' }}>⚠️</div>
+          <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+            <TriangleAlert size={48} color="#f59e0b" />
+          </div>
           <h2 style={{ color: '#1f2937', marginBottom: '12px', fontSize: '20px' }}>Ticker No Encontrado</h2>
           <p style={{ color: '#6b7280', marginBottom: '24px', fontSize: '14px' }}>{error}</p>
           <button onClick={() => navigate('/')} style={{ backgroundColor: '#ef4444', color: 'white', padding: '10px 32px', border: 'none', borderRadius: '6px', fontSize: '16px', fontWeight: '600', cursor: 'pointer', transition: 'background-color 0.2s' }} onMouseOver={(e) => e.target.style.backgroundColor = '#dc2626'} onMouseOut={(e) => e.target.style.backgroundColor = '#ef4444'}>
@@ -155,7 +158,7 @@ export default function Empresa() {
             animation: "fadeInOut 2s ease-in-out"
           }}
         >
-          {isFavorite ? "✅ Agregado a Favoritos" : "❌ Removido de Favoritos"}
+          {isFavorite ? <><CircleCheck size={20} style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> Agregado a Favoritos</> : <><CircleX size={20} style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> Removido de Favoritos</>}
         </div>
       )}
 
@@ -192,7 +195,7 @@ export default function Empresa() {
             e.target.style.boxShadow = "0 4px 12px rgba(16, 185, 129, 0.2)";
           }}
         >
-          {isFavorite ? "⭐ Quitar de Favoritos" : "⭐ Agregar a Favoritos"}
+          {isFavorite ? <><Star fill="currentColor" size={16} style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> Quitar de Favoritos</> : <><Star size={16} style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> Agregar a Favoritos</>}
         </button>
       </div>
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Clock, Star } from 'lucide-react';
 import api from '../api';
 import DashboardLayout from '../components/DashboardLayout';
 
@@ -27,7 +28,7 @@ export default function Dashboard() {
     <DashboardLayout>
       <div className="panel-doble">
         <div className="panel">
-          <h3>🕘 Historial reciente</h3>
+          <h3><Clock size={20} style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> Historial reciente</h3>
           {historial.length === 0 && <p>Sin búsquedas aún</p>}
           {historial.slice(0, 20).map((h, i) => (
             <div key={i} className="item-lista"
@@ -39,7 +40,7 @@ export default function Dashboard() {
         </div>
 
         <div className="panel">
-          <h3>⭐ Favoritos</h3>
+          <h3><Star size={20} style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> Favoritos</h3>
           {favoritos.length === 0 && <p>Sin favoritos aún</p>}
           {favoritos.map((f, i) => (
             <div key={i} className="item-lista"

@@ -161,8 +161,8 @@ body::before {
 }
 
 .logo-icon img {
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid rgba(238, 193, 93, 0.3);
@@ -616,8 +616,8 @@ body::before {
 }
 
 .sidebar-logo {
-  width: 42px;
-  height: 42px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: 1px solid rgba(238, 193, 93, 0.4);
   box-shadow: 0 0 10px rgba(238, 193, 93, 0.2);

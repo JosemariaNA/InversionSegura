@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { CircleCheck, CircleX, TriangleAlert } from 'lucide-react';
 import "./estilos/TarjetaAnalisisEstadistico.css";
 import ModalAnalisisCompleto from "./ModalAnalisisCompleto";
 
@@ -294,21 +295,21 @@ export default function TarjetaAnalisisEstadistico({ datos }) {
         
         <div className="estado-rentabilidad">
           <div className={`badge ${analisis.esRentable ? 'rentable' : 'no-rentable'}`}>
-            {analisis.esRentable ? '🟢 Rentable' : '🔴 No Rentable'}
+            {analisis.esRentable ? <><CircleCheck size={16} style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> Rentable</> : <><CircleX size={16} style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> No Rentable</>}
           </div>
         </div>
 
         {/* Advertencia de datos insuficientes */}
         {analisis.advertenciaDatos && (
           <div className="advertencia-datos">
-            ⚠️ Muestra pequeña (n={analisis.n}). Los resultados pueden no ser confiables.
+            <TriangleAlert size={16} style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> Muestra pequeña (n={analisis.n}). Los resultados pueden no ser confiables.
           </div>
         )}
 
         {/* Error de consistencia */}
         {!analisis.consistente && (
           <div className="error-consistencia">
-            ⚠️ Inconsistencia detectada entre criterios de decisión.
+            <TriangleAlert size={16} style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> Inconsistencia detectada entre criterios de decisión.
           </div>
         )}
 

@@ -1,4 +1,4 @@
-# 📊 Analizador de Estados Financieros Bursátiles
+# 📊 Analizador de Estados Financieros Bursátiles (InversiónSegura)
 
 Proyecto desarrollado para el curso de **Ingeniería de Costos** en la **Universidad Nacional de Cañete**.
 
@@ -13,28 +13,39 @@ Una aplicación web diseñada para consultar, analizar e interpretar el estado d
 
 ## 👥 Integrantes del Equipo
 
-Este proyecto fue desarrollado de manera colaborativa por:
-
 - **Lazaro Barrientos Eduardo Enrique** - *[Rol, Frontend / Backend / QA / Documentación]* - [GitHub](https://github.com/)
 - **Napan Aparcana Josemaría** - *[Rol, Frontend / Backend / QA / Documentación]* - [GitHub](https://github.com/JosemariaNA)
 - **Rocha Luna Junior Duvan** - *[Rol, Frontend / Backend / QA / Documentación]* - [GitHub](https://github.com/JunRoLu-byte)
 
-## 🏗️ Arquitectura del Proyecto
+## 📚 Documentación
 
-El repositorio está dividido en tres módulos principales para mantener un código limpio y escalable:
+Toda la documentación técnica y manuales del proyecto se encuentran en la carpeta `docs/`. Te invitamos a leer los siguientes documentos para entender el funcionamiento e instalación del sistema:
 
-- `/web` **(Frontend):** Interfaz de usuario interactiva. Encargada de la visualización de datos y gráficos.
-- `/server` **(Backend):** API REST. Actúa como intermediario seguro entre el frontend y Alpha Vantage, manejando la lógica de negocio y la protección de las credenciales (API Keys).
-- `/docs` **(Documentación):** Manuales de usuario, diagramas de arquitectura, y documentación de endpoints para el equipo de desarrollo y evaluación universitaria.
+### Guías de Inicio
+- [Instalación](docs/INSTALACION.md) - Guía paso a paso para instalar el entorno local.
+- [Configuración](docs/CONFIGURACION.md) - Variables de entorno necesarias.
+- [Uso](docs/USO.md) - Cómo iniciar y utilizar la aplicación.
+- [Despliegue](docs/DESPLIEGUE.md) - Instrucciones para llevar la app a producción.
 
-## ⚙️ Requisitos Previos
+### Arquitectura y Técnico
+- [Requerimientos](docs/REQUERIMIENTOS.md) - Requerimientos funcionales y no funcionales.
+- [Arquitectura](docs/ARQUITECTURA.md) - Diseño del sistema y stack tecnológico.
+- [Documentación de API](docs/API.md) - Endpoints del servidor Backend.
+- [Base de Datos](docs/BASE_DE_DATOS.md) - Esquemas e inicialización de Supabase.
+- [Seguridad](docs/SEGURIDAD.md) - Políticas de protección de datos y CORS.
 
-- [Node.js](https://nodejs.org/) (v16 o superior)
-- Clave de API gratuita de [Alpha Vantage](https://www.alphavantage.co/)
+### Otros
+- [Backups](docs/BACKUP.md) - Estrategia de recuperación y backups.
+- [Preguntas Frecuentes (FAQ)](docs/FAQ.md) - Solución a problemas comunes.
+- [Roadmap](docs/ROADMAP.md) - Próximas funcionalidades y roadmap.
+- [Changelog](CHANGELOG.md) - Historial de versiones.
 
-## 🛠️ Instalación y Uso
+## ⚙️ Tecnologías Utilizadas
 
-1. **Clonar el repositorio:**
-   ```bash
-   git clone [https://github.com/JosemariaNA/InversionSegura](https://github.com/JosemariaNA/InversionSegura)
-   cd tu-repositorio
+- **Frontend:** React.js, Vite, CSS Modules, Chart.js/Recharts
+- **Backend:** Node.js, Express
+- **Base de Datos:** Supabase (PostgreSQL)
+- **APIs Externas:** Alpha Vantage
+
+---
+Licenciado bajo [MIT License](LICENSE).

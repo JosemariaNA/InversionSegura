@@ -1,4 +1,5 @@
 import Navbar from '../components/Navbar';
+import { Laptop, Package, Smartphone, Settings, Store, Rocket } from 'lucide-react';
 import Footer from '../components/Footer';
 import './estilo/Nosotros.css';
 
@@ -22,22 +23,22 @@ export default function Nosotros() {
           <h2>Nuestra Idea de Negocio</h2>
           <div className="idea-grid">
             <div className="idea-card">
-              <div className="icon-wrapper">💻</div>
+              <div className="icon-wrapper"><Laptop size={32} color="#10b981" /></div>
               <h3>Desarrollo Web</h3>
               <p>Creación de páginas web modernas y optimizadas.</p>
             </div>
             <div className="idea-card">
-              <div className="icon-wrapper">📦</div>
+              <div className="icon-wrapper"><Package size={32} color="#10b981" /></div>
               <h3>Sistemas de Gestión</h3>
               <p>Software a medida para inventarios y ventas.</p>
             </div>
             <div className="idea-card">
-              <div className="icon-wrapper">📱</div>
+              <div className="icon-wrapper"><Smartphone size={32} color="#10b981" /></div>
               <h3>Apps Móviles</h3>
               <p>Aplicaciones móviles básicas e intuitivas.</p>
             </div>
             <div className="idea-card">
-              <div className="icon-wrapper">⚙️</div>
+              <div className="icon-wrapper"><Settings size={32} color="#10b981" /></div>
               <h3>Automatización</h3>
               <p>Automatización de procesos repetitivos básicos.</p>
             </div>
@@ -92,15 +93,15 @@ export default function Nosotros() {
           <h2 className="section-title">Nuestro Cliente Objetivo</h2>
           <div className="clients-grid">
             <div className="client-card">
-              <h4>🏪 Pequeñas Empresas</h4>
+              <h4><Store size={20} style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> Pequeñas Empresas</h4>
               <p>Negocios tradicionales operando (restaurantes, bodegas) que aún no están digitalizados.</p>
             </div>
             <div className="client-card">
-              <h4>💻 Emprendedores Digitales</h4>
+              <h4><Laptop size={20} style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> Emprendedores Digitales</h4>
               <p>Personas que generan ingresos por internet sin local físico (cursos online, servicios).</p>
             </div>
             <div className="client-card">
-              <h4>🚀 Startups</h4>
+              <h4><Rocket size={20} style={{verticalAlign: 'text-bottom', marginRight: '4px'}} /> Startups</h4>
               <p>Empresas nuevas con ideas innovadoras que necesitan prototipos o productos MVP.</p>
             </div>
           </div>
