@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 3000;
  
 const allowedOrigins = [
   process.env.FRONTEND_URL, 
+  'https://inversion-segura.vercel.app',
   'http://localhost:5173', 
   'http://localhost:3000'
 ];
