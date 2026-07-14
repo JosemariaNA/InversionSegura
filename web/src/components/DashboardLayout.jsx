@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { User, PiggyBank, Search, Settings } from 'lucide-react';
+import { User, PiggyBank, Search, Settings, Menu, X } from 'lucide-react';
 
 export default function DashboardLayout({ children, onSearch, hideSearch }) {
   const location = useLocation();
@@ -8,6 +8,7 @@ export default function DashboardLayout({ children, onSearch, hideSearch }) {
   const nombre = localStorage.getItem('nombre');
   
   const [simbolo, setSimbolo] = useState('');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const menu = [
     { path: '/perfil', name: 'Mi Perfil', icon: <User size={20} />, id: 'perfil' },
@@ -15,7 +16,6 @@ export default function DashboardLayout({ children, onSearch, hideSearch }) {
     { path: '/buscar', name: 'Buscar Empresas', icon: <Search size={20} />, id: 'buscar' },
   ];
 
-  // Logic for search from topbar
   const handleSearch = () => {
     if (simbolo.trim()) {
       if (onSearch) {
@@ -31,17 +31,37 @@ export default function DashboardLayout({ children, onSearch, hideSearch }) {
     navigate('/login');
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    if (isSidebarOpen) setIsSidebarOpen(false);
+  };
+
   return (
     <div className="app-layout">
+      {/* Mobile Sidebar Overlay */}
+      <div 
+        className={`sidebar-overlay ${isSidebarOpen ? 'active' : ''}`} 
+        onClick={closeSidebar}
+      ></div>
+
       {/* Sidebar */}
-      <aside className="sidebar">
+      <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+        <div className="sidebar-header-mobile">
+          <button className="mobile-close-btn" onClick={closeSidebar}>
+            <X size={24} color="#fff" />
+          </button>
+        </div>
+
         <div 
           className="sidebar-brand" 
-          onClick={() => navigate('/')}
+          onClick={() => { navigate('/'); closeSidebar(); }}
           style={{ cursor: 'pointer' }}
         >
           <img src="/logo.jpg" alt="Logo" className="sidebar-logo" />
-          <span className="sidebar-title">HighSpec</span>
+          <span className="sidebar-title">Inversión Segura</span>
         </div>
 
         <div className="sidebar-section">
@@ -49,15 +69,12 @@ export default function DashboardLayout({ children, onSearch, hideSearch }) {
           <p className="section-subtitle">Menú</p>
           <nav className="sidebar-menu">
             {menu.map((item) => {
-              // Note: determining active state might be tricky depending on routes
-              // Let's assume '/' is dashboard, '/empresa' is also related to search or control.
-              // We'll just style the basic links.
               const isActive = location.pathname === item.path || (item.id === 'buscar' && location.pathname.startsWith('/empresa'));
               return (
                 <div 
                   key={item.id} 
                   className={`menu-item ${isActive ? 'active' : ''}`}
-                  onClick={() => navigate(item.path)}
+                  onClick={() => { navigate(item.path); closeSidebar(); }}
                 >
                   <span className="menu-icon">{item.icon}</span>
                   <span className="menu-text">{item.name}</span>
@@ -77,6 +94,12 @@ export default function DashboardLayout({ children, onSearch, hideSearch }) {
       <main className="main-area">
         {/* Topbar */}
         <header className="topbar">
+          <div className="topbar-left-mobile">
+            <button className="mobile-menu-btn" onClick={toggleSidebar}>
+              <Menu size={24} color="#fff" />
+            </button>
+          </div>
+
           <div className="topbar-search">
             {!hideSearch && (
               <>
@@ -99,12 +122,12 @@ export default function DashboardLayout({ children, onSearch, hideSearch }) {
               <span className="user-avatar"><User size={20} /></span>
               <span className="user-name">{nombre} <Settings size={16} style={{marginLeft: '4px'}} /></span>
             </div>
-            <button className="btn-logout" onClick={cerrarSesion}>Cerrar sesión</button>
+            <button className="btn-logout" onClick={cerrarSesion}>Cerrar</button>
           </div>
         </header>
 
         {/* Page Content */}
-        <div className="content-container">
+        <div className="content-container" onClick={closeSidebar}>
           {children}
         </div>
       </main>

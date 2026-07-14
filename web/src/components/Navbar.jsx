@@ -18,7 +18,7 @@ export default function Navbar() {
           <span className="logo-icon">
             <img src="/logo.jpg" alt="Logo" className="logo-image" />
           </span>
-          <span className="logo-text">HighSpec</span>
+          <span className="logo-text">Inversión Segura</span>
         </Link>
         
         <div className="nav-links">

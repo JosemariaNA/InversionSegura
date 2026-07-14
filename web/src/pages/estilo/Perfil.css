@@ -357,10 +357,33 @@
     flex-direction: column;
     text-align: center;
     padding: 0 20px;
+    gap: 16px;
   }
   
   .perfil-names {
-    margin-top: 16px;
+    margin-top: 0;
+  }
+
+  .perfil-actions-top-right {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .perfil-panel {
+    padding: 20px;
+  }
+  .row-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn-edit, .btn-save, .btn-cancel {
+    width: 100%;
+    justify-content: center;
+  }
+  .avatar-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 

@@ -55,7 +55,7 @@ export default function Footer() {
               </svg>
             </span>
           </div>
-          <div className="copyright">© 2026 HighSpec. Todos los derechos<br />reservados.</div>
+          <div className="copyright">© 2026 Inversión Segura. Todos los derechos reservados.</div>
         </div>
       </div>
     </footer>

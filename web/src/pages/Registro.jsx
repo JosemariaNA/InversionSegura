@@ -30,7 +30,7 @@ export default function Registro() {
       <div className="auth-container">
         <div className="auth-card">
           <div className="auth-header">
-            <h1>HighSpec</h1>
+            <h1>Inversión Segura</h1>
             <h2>Crear Cuenta</h2>
             <p className="auth-subtitle">Únete a nuestra plataforma financiera</p>
           </div>
