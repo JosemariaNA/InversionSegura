@@ -10,6 +10,8 @@ import Dashboard from './pages/Dashboard';
 import Empresa   from './pages/Empresa';
 import Perfil    from './pages/Perfil';
 import ControlFinanciero from './pages/ControlFinanciero';
+import ComparadorPage from './pages/Comparador';
+import SimuladorPage from './pages/Simulador';
 import Navbar    from './components/Navbar';
 
 function RutaProtegida({ children }) {
@@ -39,6 +41,12 @@ export default function App() {
         } />
         <Route path="/empresa/:simbolo" element={
           <RutaProtegida><Empresa /></RutaProtegida>
+        } />
+        <Route path="/comparador" element={
+          <RutaProtegida><ComparadorPage /></RutaProtegida>
+        } />
+        <Route path="/simulador" element={
+          <RutaProtegida><SimuladorPage /></RutaProtegida>
         } />
       </Routes>
     </BrowserRouter>

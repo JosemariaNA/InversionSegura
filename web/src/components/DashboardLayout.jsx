@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { User, PiggyBank, Search, Settings, Menu, X } from 'lucide-react';
+import { User, PiggyBank, Search, Settings, Menu, X, Scale, Calculator } from 'lucide-react';
 
 export default function DashboardLayout({ children, onSearch, hideSearch }) {
   const location = useLocation();
@@ -14,6 +14,8 @@ export default function DashboardLayout({ children, onSearch, hideSearch }) {
     { path: '/perfil', name: 'Mi Perfil', icon: <User size={20} />, id: 'perfil' },
     { path: '/control', name: 'Control Financiero', icon: <PiggyBank size={20} />, id: 'control' },
     { path: '/buscar', name: 'Buscar Empresas', icon: <Search size={20} />, id: 'buscar' },
+    { path: '/comparador', name: 'Comparador de Activos', icon: <Scale size={20} />, id: 'comparador' },
+    { path: '/simulador', name: 'Simulador de Interés', icon: <Calculator size={20} />, id: 'simulador' },
   ];
 
   const handleSearch = () => {
